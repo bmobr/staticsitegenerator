@@ -5,5 +5,6 @@ def main():
     textnode = TextNode("This is some anchor text", "link", "https://www.google.com")
     print(textnode)
 
-main()
+if __name__ == "__main__":
+    main()
     
