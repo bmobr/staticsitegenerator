@@ -29,5 +29,44 @@ class TestExtractMarkdown(unittest.TestCase):
         )
         self.assertListEqual([("some image", "https://i.imgur.com/zjjcJKZ.png"), ("another image", "https://example.com")], matches)
 
+    def test_extract_markdown_images(self):
+        # Test 1: Simple case with two images
+        text = "This is text with a ![cat](https://example.com/cat.png) and ![dog](https://example.com/dog.png)"
+        expected = [('cat', 'https://example.com/cat.png'), ('dog', 'https://example.com/dog.png')]
+        self.assertListEqual(extract_markdown_images(text), expected)
+        
+        # Test 2: No images in the text
+        text = "This is text without any images or special markdown."
+        expected = []
+        self.assertListEqual(extract_markdown_images(text), expected)
+
+        # Test 3: Edge case with empty alt text
+        text = "![](https://example.com/emptyalt.png)"
+        expected = [('', 'https://example.com/emptyalt.png')]
+        self.assertListEqual(extract_markdown_images(text), expected)
+        
+        # Test 4: Complex URL with query parameters
+        text = "![chart](https://example.com/chart.png?width=500&height=400)"
+        expected = [('chart', 'https://example.com/chart.png?width=500&height=400')]
+        self.assertListEqual(extract_markdown_images(text), expected)
+
+    def test_extract_markdown_links(self):
+        # Test 5: Simple links
+        text = "This is a [link to google](https://www.google.com) and a [link to boot dev](https://www.boot.dev)"
+        expected = [('link to google', 'https://www.google.com'), ('link to boot dev', 'https://www.boot.dev')]
+        self.assertListEqual(extract_markdown_links(text), expected)
+        
+        # Test 6: Text with no links
+        text = "Just normal text, no links here!"
+        expected = []
+        self.assertListEqual(extract_markdown_links(text), expected)
+        
+        # Test 7: Links with special characters
+        text = "[search link](https://example.com/search?q=markdown&lang=en)"
+        expected = [('search link', 'https://example.com/search?q=markdown&lang=en')]
+        self.assertListEqual(extract_markdown_links(text), expected)
+
+
+    
 if __name__ == "__main__":
     unittest.main()
