@@ -26,6 +26,14 @@ class HTMLNode:
         else:
             return False
 
+# Create a child class of HTMLNode called LeafNode. Its constructor should differ slightly from the HTMLNode class because:
+# It should not allow for any children
+# The value data member should be required (and tag even though the tag's value may be None)
+# Use the super() function to call the constructor of the HTMLNode class.
+# Add a .to_html() method that renders a leaf node as an HTML string (by returning a string).
+# If the leaf node has no value, it should raise a ValueError. All leaf nodes must have a value.
+# If there is no tag (e.g. it's None), the value should be returned as raw text.
+# Otherwise, it should render an HTML tag.
 class LeafNode(HTMLNode):
     def __init__(self, tag, value, props=None):
         super().__init__(tag, value, None, props)
@@ -38,7 +46,19 @@ class LeafNode(HTMLNode):
         
     def __repr__(self):
         return (f"LeafNode: (tag={self.tag}, value={self.value}, props={self.props})") 
-    
+
+
+# Create another child class of HTMLNode called ParentNode. Its constructor should differ from HTMLNode in that:
+# The tag and children arguments are not optional
+# It doesn't take a value argument
+# props is optional
+# (It's the exact opposite of the LeafNode class)
+# Add a .to_html method.
+# If the object doesn't have a tag, raise a ValueError.
+# If children is a missing value, raise a ValueError with a different message.
+# Otherwise, return a string representing the HTML tag of the node and its children. 
+# This should be a recursive method (each recursion being called on a nested child node). 
+# I iterated over all the children and called to_html on each, concatenating the results and injecting them between the opening and closing tags of the parent.
 class ParentNode(HTMLNode):
     def __init__(self, tag, children, props=None):
         super().__init__(tag, None, children, props)  
