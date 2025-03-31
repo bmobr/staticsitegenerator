@@ -2,6 +2,7 @@ from textnode import *
 from splitnodes import *
 from converttonodes import *
 from splitnodedelimiter import *
+from extractmarkdown import *
 
 def split_image_test1():
     node = TextNode(
@@ -47,12 +48,47 @@ def split_delimiter_test1():
     for node in new_nodes:
         print(f"{node}\n")
 
+def markdown_to_blocks_test1():
+    text = """
+    # This is a heading
+
+    This is a paragraph of text. It has some **bold** and _italic_ words inside of it.
+
+    - This is the first list item in a list block
+    - This is a list item
+    - This is another list item
+    """
+    # print(text)
+    new_nodes = markdown_to_blocks(text)
+    i = 0
+    for node in new_nodes:
+        i += 1
+        print(f"{i}. {node}")
+
+def markdown_to_blocks_test2():
+    md = """
+            This is **bolded** paragraph
+
+            This is another paragraph with _italic_ text and `code` here
+            This is the same paragraph on a new line
+
+            - This is a list
+            - with items
+            """
+    new_nodes = markdown_to_blocks(md)
+    i = 0
+    for node in new_nodes:
+        i += 1
+        print(f"{i}. {node}")
+
 def main():
     #split_image_test1()   
     #split_image_test2()    
     #split_link_test1()   
-    converttonodes_test1()
+    #converttonodes_test1()
     #split_delimiter_test1()
+    markdown_to_blocks_test1()
+    markdown_to_blocks_test2()
 
 if __name__ == "__main__":
     main()

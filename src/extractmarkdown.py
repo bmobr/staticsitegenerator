@@ -1,5 +1,6 @@
 from htmlnode import *
 from textnode import *
+from converttonodes import *
 # for regular expressions
 import re
 
@@ -23,3 +24,23 @@ def extract_markdown_links(text):
     return matches
     
 
+# takes a raw Markdown string (representing a full document) as input and returns a list of "block" strings. 
+def markdown_to_blocks(markdown):
+    # split by double newlines
+    text_nodes = markdown.split("\n\n")
+    clean_nodes = []
+    for node in text_nodes: 
+        # remove leading and trailing whitespace
+        node = node.strip()    
+        # remove leading and trailing spaces from each line
+        if node.find("\n") != -1:
+            lines = node.split("\n")
+            # remove leading and trailing whitespace from each line
+            stripped_lines = [line.strip() for line in lines]
+            # join the lines back into a single string
+            node = "\n".join(stripped_lines)
+        # add the node to the list
+        if node:             
+            clean_nodes.append(node)
+    
+    return clean_nodes

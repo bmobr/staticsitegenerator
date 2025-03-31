@@ -1,4 +1,4 @@
-from textnode import TextNode
+from textnode import *
 from htmlnode import *  
 from extractmarkdown import *
 

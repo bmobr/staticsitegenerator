@@ -66,7 +66,51 @@ class TestExtractMarkdown(unittest.TestCase):
         expected = [('search link', 'https://example.com/search?q=markdown&lang=en')]
         self.assertListEqual(extract_markdown_links(text), expected)
 
+    def test_markdown_to_blocks(self):
+        md = """
+            This is **bolded** paragraph
 
+            This is another paragraph with _italic_ text and `code` here
+            This is the same paragraph on a new line
+
+            - This is a list
+            - with items
+            """
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with _italic_ text and `code` here\nThis is the same paragraph on a new line",
+                "- This is a list\n- with items",
+            ],
+        )
+    
+    def test_markdown_to_blocks_empty(self):
+        md = ""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(blocks, [])
+    
+    def test_empty_markdown(self):
+        md = ""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(blocks, [])
+
+    def test_single_block(self):
+        md = "Just one block with no empty lines"
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(blocks, ["Just one block with no empty lines"])
+
+    def test_multiple_newlines_between_blocks(self):
+        md = "First block\n\n\n\nSecond block"
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(blocks, ["First block", "Second block"])
+
+    def test_code_blocks(self):
+        md = "```python\nprint('Hello, world!')\n```"
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(blocks, ["```python\nprint('Hello, world!')\n```"])
+    
     
 if __name__ == "__main__":
     unittest.main()
