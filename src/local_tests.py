@@ -3,6 +3,7 @@ from splitnodes import *
 from converttonodes import *
 from splitnodedelimiter import *
 from extractmarkdown import *
+from blocktype import *
 
 def split_image_test1():
     node = TextNode(
@@ -81,14 +82,26 @@ def markdown_to_blocks_test2():
         i += 1
         print(f"{i}. {node}")
 
+def test_block_to_block_type():
+    print(block_to_block_type("hello") == BlockType.PARAGRAPH)
+    print(block_to_block_type("# hello") == BlockType.HEADING)
+    print(block_to_block_type("### hello") == BlockType.HEADING)
+    print(block_to_block_type("###hello") == BlockType.HEADING)
+    print(block_to_block_type("- hello\n- hello") == BlockType.UNORDERED_LIST)
+    print(block_to_block_type("1. hello\n2. hello") == BlockType.ORDERED_LIST)
+    print(block_to_block_type("```\nhello\n```") == BlockType.CODE)
+    print(block_to_block_type(">hello\n> hello again") == BlockType.QUOTE)
+    
+
 def main():
     #split_image_test1()   
     #split_image_test2()    
     #split_link_test1()   
     #converttonodes_test1()
     #split_delimiter_test1()
-    markdown_to_blocks_test1()
-    markdown_to_blocks_test2()
+    #markdown_to_blocks_test1()
+    #markdown_to_blocks_test2()
+    test_block_to_block_type()
 
 if __name__ == "__main__":
     main()
