@@ -1,6 +1,6 @@
 from htmlnode import *
 from textnode import *
-from splitnodedelimiter import *
+from splitnodes import *
 import unittest
 
 class TestSplitNodeDelimiter(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from extractmarkdown import *
+from splitnodes import *
 from htmlnode import *
 from textnode import *
 
